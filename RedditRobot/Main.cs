@@ -10,7 +10,7 @@ namespace RedditRobot
 		public static void Main (string[] args)
 		{
 			MockRobot robot = new MockRobot();
-			Reddit reddit = new Reddit("username", "password");
+			Reddit reddit = new Reddit("valree", "shpluh");
 			RedditRobotBrain brain = new RedditRobotBrain(robot,
 			                                              reddit,
 			                                              "alienrobotspy");

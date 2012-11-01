@@ -102,7 +102,7 @@ namespace RedditAPI
 			JObject json = (JObject)o["json"];
 			JArray errors = (JArray)json["errors"];
 			this.modhash = (string)json["data"]["modhash"];
-			string cookie = (string)json["data"]["cookie"];
+			string cookie = System.Web.HttpUtility.UrlEncode((string)json["data"]["cookie"]);
 			this.sessionCookie = new Cookie("reddit_session", cookie, "/", redditCookieDomain);
 			return errors;
 			// TODO: error handling
