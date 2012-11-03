@@ -1,29 +1,13 @@
+using RedditAPI;
+using RobotControllerInterface;
 using System;
 using System.Timers;
 
-using RedditAPI;
-using RobotControllerInterface;
-using RedditVoteRobot;
-
-
-namespace RedditRobot
+namespace RedditVoteRobot
 {
-	class MainClass
-	{
-		public static void Main (string[] args)
-		{
-			IRobot robot = (IRobot)new MockRobot();
-			Reddit reddit = new Reddit("valree", "shpluh");
-			RobotBrain brain = new RobotBrain(robot,
-			                                  reddit,
-			                                  "alienrobotspy");
-			brain.start ();
-		}
-	}
-	/*
-	public class RedditRobotBrain {
+	public class RobotBrain {
 		private Reddit reddit; 
-		private MockRobot robot;
+		private IRobot robot;
 		private System.Timers.Timer timer;
 		private readonly string robotSubreddit;
 		private string postId;
@@ -34,7 +18,7 @@ namespace RedditRobot
 		private int timesMoved = 0;
 		private bool timerBusy = false;
 		private object timerLock = new object();
-
+		
 		private static readonly string introTitle = @"You are driving the reddit alien robot. 
                                                        Where should I go next?";
 		private static readonly string introText = @"weeeeeeee";
@@ -42,16 +26,16 @@ namespace RedditRobot
 		private static readonly string backText = "go back!";
 		private static readonly string leftText = "left";
 		private static readonly string rightText = "right";
-
-		public RedditRobotBrain (MockRobot robot,
-		                         Reddit reddit,
-		                         string robotSubreddit)
+		
+		public RobotBrain (IRobot robot,
+		                   Reddit reddit,
+		                   string robotSubreddit)
 		{
 			this.robot = robot;
 			this.reddit = reddit;
 			this.robotSubreddit = robotSubreddit;
 		}
-
+		
 		public void start()
 		{
 			this.postId = reddit.postSelf (robotSubreddit, introTitle, introText);
@@ -64,7 +48,7 @@ namespace RedditRobot
 			Console.ReadLine (); // wait for keypress
 			timer.Dispose ();
 		}
-
+		
 		private void TimerCallback_Move (object source, ElapsedEventArgs e)
 		{
 			// skip this move if the last one's still in progress
@@ -85,10 +69,10 @@ namespace RedditRobot
 					// translate votes into driving params
 					Console.WriteLine ("reading controls");
 					// TODO: check for null
-					int direction = forwardComment.ups - backComment.ups;
-					int rotation = leftComment.ups - rightComment.ups;
+					int velocity = forwardComment.ups - backComment.ups;
+					int angle = leftComment.ups - rightComment.ups;
 					// go! go! go!
-					robot.drive (direction, rotation);
+					robot.Drive (velocity, angle);
 					// delete old direction controls
 					Console.WriteLine ("deleting old comments");
 					reddit.deleteComment (forwardId);
@@ -114,6 +98,6 @@ namespace RedditRobot
 				timerBusy = false;
 			}
 		}
+	}
 }
-    */
-}
+

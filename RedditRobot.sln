@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditRobot", "RedditRobot\RedditRobot.csproj", "{DC52BA96-9582-42C0-8D24-F59D14EE6911}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditRobotTester", "RedditRobot\RedditRobotTester.csproj", "{DC52BA96-9582-42C0-8D24-F59D14EE6911}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditAPI", "RedditAPI\RedditAPI.csproj", "{8C8C393F-2102-453B-A6EE-07623B03FDE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotControllerInterface", "RobotControllerInterface\RobotControllerInterface.csproj", "{8CE4EC53-F8D3-4B86-BD7A-2D28DAC84751}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditVoteRobot", "RedditVoteRobot\RedditVoteRobot.csproj", "{CBF7858A-C109-493C-B91E-7DE2C5B6AB98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,12 +19,20 @@ Global
 		{8C8C393F-2102-453B-A6EE-07623B03FDE3}.Debug|x86.Build.0 = Debug|Any CPU
 		{8C8C393F-2102-453B-A6EE-07623B03FDE3}.Release|x86.ActiveCfg = Release|Any CPU
 		{8C8C393F-2102-453B-A6EE-07623B03FDE3}.Release|x86.Build.0 = Release|Any CPU
+		{8CE4EC53-F8D3-4B86-BD7A-2D28DAC84751}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8CE4EC53-F8D3-4B86-BD7A-2D28DAC84751}.Debug|x86.Build.0 = Debug|Any CPU
+		{8CE4EC53-F8D3-4B86-BD7A-2D28DAC84751}.Release|x86.ActiveCfg = Release|Any CPU
+		{8CE4EC53-F8D3-4B86-BD7A-2D28DAC84751}.Release|x86.Build.0 = Release|Any CPU
+		{CBF7858A-C109-493C-B91E-7DE2C5B6AB98}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CBF7858A-C109-493C-B91E-7DE2C5B6AB98}.Debug|x86.Build.0 = Debug|Any CPU
+		{CBF7858A-C109-493C-B91E-7DE2C5B6AB98}.Release|x86.ActiveCfg = Release|Any CPU
+		{CBF7858A-C109-493C-B91E-7DE2C5B6AB98}.Release|x86.Build.0 = Release|Any CPU
 		{DC52BA96-9582-42C0-8D24-F59D14EE6911}.Debug|x86.ActiveCfg = Debug|x86
 		{DC52BA96-9582-42C0-8D24-F59D14EE6911}.Debug|x86.Build.0 = Debug|x86
 		{DC52BA96-9582-42C0-8D24-F59D14EE6911}.Release|x86.ActiveCfg = Release|x86
 		{DC52BA96-9582-42C0-8D24-F59D14EE6911}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = RedditRobot\RedditRobot.csproj
+		StartupItem = RedditRobot\RedditRobotTester.csproj
 	EndGlobalSection
 EndGlobal

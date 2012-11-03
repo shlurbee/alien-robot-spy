@@ -31,21 +31,25 @@
     <Externalconsole>True</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="MockRobot.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\RedditAPI\RedditAPI.csproj">
       <Project>{8C8C393F-2102-453B-A6EE-07623B03FDE3}</Project>
       <Name>RedditAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RobotControllerInterface\RobotControllerInterface.csproj">
+      <Project>{8CE4EC53-F8D3-4B86-BD7A-2D28DAC84751}</Project>
+      <Name>RobotControllerInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RedditVoteRobot\RedditVoteRobot.csproj">
+      <Project>{CBF7858A-C109-493C-B91E-7DE2C5B6AB98}</Project>
+      <Name>RedditVoteRobot</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

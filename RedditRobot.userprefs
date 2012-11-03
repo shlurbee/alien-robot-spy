@@ -1,21 +1,15 @@
-﻿<Properties>
+﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="RedditRobot/Main.cs">
     <Files>
-      <File FileName="RedditRobot/Main.cs" Line="16" Column="3" />
-      <File FileName="RedditAPI/Reddit.cs" Line="172" Column="6" />
-      <File FileName="RedditAPI/Comment.cs" Line="11" Column="20" />
+      <File FileName="RedditRobot/Main.cs" Line="10" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="RedditAPI" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
-          <Node name="RedditRobot" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="Main.cs" selected="True" />
-          </Node>
+          <Node name="RedditRobotTester" expanded="True" />
+          <Node name="RedditVoteRobot" expanded="True" />
+          <Node name="RobotControllerInterface" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
