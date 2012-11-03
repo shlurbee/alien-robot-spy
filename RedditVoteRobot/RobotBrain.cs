@@ -44,10 +44,12 @@ namespace RedditVoteRobot
 			timer.Elapsed += new ElapsedEventHandler(TimerCallback_Move);
 			timer.Enabled = true;
 			timer.Start ();
-			Console.WriteLine("press any key to stop");
-			Console.ReadLine (); // wait for keypress
-			timer.Dispose ();
 		}
+
+        public void stop()
+        {
+            timer.Dispose();
+        }
 		
 		private void TimerCallback_Move (object source, ElapsedEventArgs e)
 		{
