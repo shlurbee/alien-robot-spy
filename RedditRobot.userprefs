@@ -1,16 +1,13 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="RedditRobot/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RedditVoteRobot/RobotBrain.cs">
     <Files>
-      <File FileName="RedditRobot/Main.cs" Line="10" Column="2" />
+      <File FileName="RedditRobot/Main.cs" Line="4" Column="17" />
+      <File FileName="RedditVoteRobot/RobotBrain.cs" Line="64" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="RedditRobotTester" expanded="True" />
-          <Node name="RedditVoteRobot" expanded="True" />
-          <Node name="RobotControllerInterface" expanded="True" selected="True" />
-        </State>
+        <State expanded="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

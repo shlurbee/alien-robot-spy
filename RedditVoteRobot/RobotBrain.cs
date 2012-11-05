@@ -8,6 +8,7 @@ namespace RedditVoteRobot
 	public class RobotBrain {
 		private Reddit reddit; 
 		private IRobot robot;
+		private Config config;
 		private System.Timers.Timer timer;
 		private readonly string robotSubreddit;
 		private string postId;
@@ -22,38 +23,39 @@ namespace RedditVoteRobot
 		private static readonly string introTitle = @"You are driving the reddit alien robot. 
                                                        Where should I go next?";
 		private static readonly string introText = @"weeeeeeee";
-		private static readonly string forwardText = "go ahead";
-		private static readonly string backText = "go back!";
-		private static readonly string leftText = "left";
-		private static readonly string rightText = "right";
-		
+
 		public RobotBrain (IRobot robot,
 		                   Reddit reddit,
-		                   string robotSubreddit)
+		                   Config config)
 		{
 			this.robot = robot;
 			this.reddit = reddit;
-			this.robotSubreddit = robotSubreddit;
+			this.config = config;
+			this.robotSubreddit = config.subreddit;
 		}
 		
 		public void start()
 		{
 			this.postId = reddit.postSelf (robotSubreddit, introTitle, introText);
 			// TODO: if post failed, error message and stop
-			timer = new System.Timers.Timer(60000); // 60 secs
+			timer = new System.Timers.Timer(30000); // 30 secs
 			timer.Elapsed += new ElapsedEventHandler(TimerCallback_Move);
 			timer.Enabled = true;
 			timer.Start ();
 		}
 
-        public void stop()
-        {
-            timer.Dispose();
+        public void stop ()
+		{
+			if (timer != null) 
+			{
+				timer.Dispose ();
+			}
         }
 		
 		private void TimerCallback_Move (object source, ElapsedEventArgs e)
 		{
-			// skip this move if the last one's still in progress
+			// use lock to make sure moves don't overlap. (if a new move starts
+			// before the current one ends, the new move will be ignored.)
 			lock (timerLock) {
 				if (timerBusy)
 					return;
@@ -89,16 +91,46 @@ namespace RedditVoteRobot
 			}
 			// create a new set of direction controls
 			Console.WriteLine ("create new controls");
-			forwardId = reddit.postComment(postId, forwardText + " " + DateTime.Now);
-			backId = reddit.postComment(postId, backText + " " + DateTime.Now);
-			leftId = reddit.postComment(postId, leftText + " " + DateTime.Now);
-			rightId = reddit.postComment(postId, rightText + " " + DateTime.Now);
+			forwardId = reddit.postComment(postId, forwardString());
+			backId = reddit.postComment(postId, backString()); 
+			leftId = reddit.postComment(postId, leftString());
+			rightId = reddit.postComment(postId, rightString());
+			// stop if max number of moves has been reached
 			if (++timesMoved > 20) {
 				timer.Stop();
 			}
+			// free lock so function can repeat
 			lock (timerLock) {
 				timerBusy = false;
 			}
+		}
+
+		private string rightString ()
+		{
+			return string.Format ("    {0}\n[](/right){1}",
+                                 DateTime.Now, 
+                                 config.rightStrings.pickRandom ());
+		}
+
+		private string leftString ()
+		{
+			return string.Format ("    {0}\n[](/left){1}",
+                                  DateTime.Now,
+                                  config.leftStrings.pickRandom ());
+		}
+
+		private string forwardString ()
+		{
+			return string.Format ("    {0}\n\n[](/forward){1}",
+                                  DateTime.Now,
+                                  config.forwardStrings.pickRandom ());
+		}
+
+		private string backString ()
+		{
+			return string.Format ("    {0}\n[](/back){1}",
+                                  DateTime.Now,
+                                  config.backStrings.pickRandom ());
 		}
 	}
 }
