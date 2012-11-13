@@ -31,6 +31,11 @@ namespace RedditVoteRobot
 		public String username { get; set; }
 		public String password { get; set; }
 		public String subreddit { get; set; }
+		public String redditBaseUrl { get; set; }
+		public String redditApiUrl { get; set; }
+		public String linkPrefix { get; set; }
+		public String commentPrefix { get; set; }
+		public String cookieDomain { get; set; }
 		public List<String> leftStrings { get; set; }
 		public List<String> rightStrings { get; set; }
 		public List<String> forwardStrings { get; set; }

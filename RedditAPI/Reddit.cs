@@ -15,6 +15,27 @@ namespace RedditAPI
 		private Cookie sessionCookie;
 		private string modhash;
 
+		// FIXME: better way of getting config info (make sure cookie
+		//   domain is set correctly before login)
+
+		public Reddit (string username, string password,
+		              string baseUrl, string apiUrl,
+		              string cookieDomain, string linkPrefix, 
+		              string commentPrefix)
+		{
+			this.baseUrl = baseUrl;
+			this.apiUrl = apiUrl;
+			this.redditCookieDomain = cookieDomain;
+			this.linkPrefix = linkPrefix;
+			this.commentPrefix = commentPrefix;
+
+			if (this.modhash == null) {
+				JArray errors = login (username, password);
+				Console.WriteLine("cookie: " + this.sessionCookie.ToString());
+				Console.WriteLine ("errors: " + errors.ToString());
+			}
+		}
+
 		public Reddit (string username, string password)
 		{
 			if (this.modhash == null) {
@@ -24,18 +45,35 @@ namespace RedditAPI
 			}
 		}
 
-		// TODO: get urls from config file?
-		//private string redditBaseUrl = "http://reddit.local:8081";
-		//private string redditApiUrl = "http://reddit.local:8081/api"; 
-		//private string redditCookieDomain = "reddit.local"; // ".reddit.com"
-		//private string linkPrefix = "t6";
-		//private string commentPrefix = "t1";
+		private string m_redditBaseUrl = "http://www.reddit.com";
+		public string baseUrl {
+			get { return m_redditBaseUrl; }
+			set { m_redditBaseUrl = value; }
+		}
 
-		private string redditBaseUrl = "http://www.reddit.com";
-		private string redditApiUrl = "http://www.reddit.com/api"; 
-		private string redditCookieDomain = ".reddit.com"; // ".reddit.com"
-		private string linkPrefix = "t3";
-		private string commentPrefix = "t1";
+		private string m_redditApiUrl = "http://www.reddit.com/api";
+		public string apiUrl {
+			get { return m_redditApiUrl; }
+			set { m_redditApiUrl = value; }
+		}
+
+		private string m_redditCookieDomain = ".reddit.com";
+		public string redditCookieDomain {
+			get { return m_redditCookieDomain; }
+			set { m_redditCookieDomain = value; }
+		}
+
+		private string m_linkPrefix = "t3";
+		public string linkPrefix {
+			get { return m_linkPrefix; }
+			set { m_linkPrefix = value; }
+		}
+
+		private string m_commentPrefix = "t1";
+		public string commentPrefix {
+			get { return m_commentPrefix; }
+			set { m_commentPrefix = value; }
+		}
 
 		/* Helper methods */
 		private string commentFullname (string commentId)
@@ -56,39 +94,39 @@ namespace RedditAPI
 		/* API endpoints */
 		private string loginUrl (string username)
 		{
-			return string.Format ("{0}/login/{1}", redditApiUrl, username);
+			return string.Format ("{0}/login/{1}", apiUrl, username);
 		}
 
 		private string postSelfUrl ()
 		{
-			return string.Format ("{0}/submit", redditApiUrl);
+			return string.Format ("{0}/submit", apiUrl);
 		}
 
 		private string getPostUrl (string postId)
 		{
-			return string.Format ("{0}/comments/{1}.json", redditBaseUrl, postId);
+			return string.Format ("{0}/comments/{1}.json", baseUrl, postId);
 		}
 
 		private string postCommentUrl ()
 		{
-			return string.Format ("{0}/comment", redditApiUrl);
+			return string.Format ("{0}/comment", apiUrl);
 		}
 
 		private string getCommentUrl(string subreddit, string parentPostId, string commentId)
 		{
 			return string.Format ("{0}/comments/{1}/0/{2}.json", 
-			                      redditBaseUrl, parentPostId, commentId);
+			                      baseUrl, parentPostId, commentId);
 	    }
 
 		private string refreshCommentsUrl (string subreddit, string parentPostId)
 		{
 			return string.Format ("{0}/r/{1}/comments/{2}.json", 
-			                      redditBaseUrl, subreddit, parentPostId);
+			                      baseUrl, subreddit, parentPostId);
 		}
 
 		private string deleteCommentUrl ()
 		{   
-			return string.Format ("{0}/del/", redditApiUrl); 
+			return string.Format ("{0}/del/", apiUrl); 
 		}
 
 		/* API methods */
@@ -200,7 +238,8 @@ namespace RedditAPI
 					using (var streamReader = new StreamReader(responseStream, Encoding.UTF8)) {
 						string json = streamReader.ReadToEnd();
 						Console.WriteLine(url + "?" + queryString);
-						Console.WriteLine(json.Substring(0,Math.Min(50, json.Length)) + "...");
+						Console.WriteLine (json);
+						//Console.WriteLine(json.Substring(0,Math.Min(50, json.Length)) + "...");
 						JObject o = JObject.Parse(json);
 						return o;
 					}

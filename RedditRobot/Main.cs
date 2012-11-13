@@ -15,10 +15,14 @@ namespace RedditRobot
 	{
 		public static void Main (string[] args)
 		{
+			//writeDefaultConfig();
 			// TODO: error handling
 			Config config = Config.fromFile("redditRobotConfig.xml");
 			IRobot robot = (IRobot)new MockRobot();
-			Reddit reddit = new Reddit(config.username, config.password);
+			Reddit reddit = new Reddit(config.username, config.password,
+			                           config.redditBaseUrl, config.redditApiUrl,
+			                           config.cookieDomain, config.linkPrefix, 
+			                           config.commentPrefix);
 			RobotBrain brain = new RobotBrain(robot,
 			                                  reddit,
 			                                  config);
@@ -33,6 +37,12 @@ namespace RedditRobot
 			config.username = "valree";
 			config.password = "shpluh";
 			config.subreddit = "alienrobotspy";
+			config.redditBaseUrl = "http://www.reddit.com"; // "http://reddit.local"
+			config.redditApiUrl = "http://www.reddit.com/api"; // "http://reddit.local/api"
+			config.cookieDomain = ".reddit.com"; // "reddit.local"
+			config.linkPrefix = "t6"; // "t3"
+			config.commentPrefix = "t1"; // "t1"
+
 			config.leftStrings = new List<string>() {
 				"Left seems appropriate at this juncture",
 				"90 degrees please GoldBot",

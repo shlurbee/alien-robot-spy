@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="RedditVoteRobot/RobotBrain.cs">
     <Files>
-      <File FileName="RedditRobot/Main.cs" Line="4" Column="17" />
-      <File FileName="RedditVoteRobot/RobotBrain.cs" Line="64" Column="36" />
+      <File FileName="RedditRobot/Main.cs" Line="27" Column="14" />
+      <File FileName="RedditVoteRobot/RobotBrain.cs" Line="41" Column="51" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
