@@ -191,12 +191,23 @@ namespace RedditAPI
 			Comment comment = null;
 			string json = getRequest (getCommentUrl (subreddit, parentId, commentId));
 			JArray items = JArray.Parse (json);
-			foreach (JObject item in items) {
-				if (((string)item["data"]["children"][0]["data"]["id"]).Equals (commentId)) {
-					comment = new Comment((JObject)item["data"]["children"][0]["data"]);
-					break;
-				}
-			}
+            try
+            {
+			    foreach (JObject item in items) {
+
+                    if (((string)item["data"]["children"][0]["data"]["id"]).Equals(commentId))
+                    {
+                        comment = new Comment((JObject)item["data"]["children"][0]["data"]);
+                        break;
+                    }
+
+			    }
+            }
+            catch (Exception e)
+            {
+                Console.Write("Exception parsing comment response: {0}\n{1}",
+                    e.Message, json);
+            }
 			return comment;
 		}
 
@@ -237,9 +248,9 @@ namespace RedditAPI
 				using (var responseStream = response.GetResponseStream()) {
 					using (var streamReader = new StreamReader(responseStream, Encoding.UTF8)) {
 						string json = streamReader.ReadToEnd();
-						Console.WriteLine(url + "?" + queryString);
-						Console.WriteLine (json);
-						//Console.WriteLine(json.Substring(0,Math.Min(50, json.Length)) + "...");
+						 Console.WriteLine(url + "?" + queryString);
+						//Console.WriteLine (json);
+						Console.WriteLine(json.Substring(0,Math.Min(50, json.Length)) + "...");
 						JObject o = JObject.Parse(json);
 						return o;
 					}

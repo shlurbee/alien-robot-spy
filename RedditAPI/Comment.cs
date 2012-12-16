@@ -6,7 +6,7 @@ namespace RedditAPI
 	public class Comment
 	{
 		public string id { get; set; }
-		public int ups { get; set; }
+		public int ups { get; set; } 
 
 		public Comment ()
 		{
