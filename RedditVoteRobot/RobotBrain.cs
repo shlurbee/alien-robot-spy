@@ -52,7 +52,24 @@ namespace RedditVoteRobot
 				timer.Dispose ();
 			}
         }
-		
+
+        static double robotWheelRadiusMm = 125;
+        static double robotCircumferenceMm = 2 * Math.PI * robotWheelRadiusMm;
+
+        private double getTurnDurationMillisecs(double turnVelocityMmPerSec, 
+                                                double turnAngleDegrees)
+        {
+            if (turnVelocityMmPerSec == 0) return 0;
+            double mmToTravel = (turnAngleDegrees / 360) * robotCircumferenceMm;
+            return 1000 * mmToTravel / turnVelocityMmPerSec;
+        }
+
+        private double getDriveDurationMillisecs(double driveVelocityMmPerSec, double driveDistanceMm)
+        {
+            // note velocity is in mm / sec and duration should be msecs
+            return driveDistanceMm * 1000 / driveVelocityMmPerSec;
+        }
+
 		private void TimerCallback_Move (object source, ElapsedEventArgs e)
 		{
 			// use lock to make sure moves don't overlap. (if a new move starts
@@ -63,7 +80,6 @@ namespace RedditVoteRobot
 				else
 					timerBusy = true;
 			}
-
 
 			if (forwardId != null) {
 				// fetch most recent set of controls and read vote values
@@ -83,24 +99,32 @@ namespace RedditVoteRobot
                     Console.WriteLine("forward:{0}, back:{1}, left:{2}, right:{3}",
                         forwardComment.ups, backComment.ups, 
                         leftComment.ups, rightComment.ups);
-					int distance = 2000; // todo: convert votes to some number between -2000 and 2000
+					int distance = this.config.driveDistanceCm;
                     int driveVelocity = 0;
                     if (forwardComment.ups > backComment.ups) driveVelocity = 200;
                     else if (forwardComment.ups < backComment.ups) driveVelocity = -200;
 
-                    int rotation = leftComment.ups - rightComment.ups;
+                    int rotateVotes = leftComment.ups - rightComment.ups;
                     int rotateVelocity = 0;
-                    if (rotation != 0)
+                    int rotateDuration = 0;
+
+                    if (rotateVotes != 0)
                     {
-                        // todo: normalize rotation value to some range
-                        rotation = (rotation > 0) ? 300 : -300;
-                        rotateVelocity = (rotation > 0) ? 500 : -500;
+                        // use negative velocity to reverse turn direction
+                        rotateVelocity = (rotateVotes > 0) ? 300 : -300;
+                        // calculate how long to turn for desired angle
+                        double rotateAngleDegrees = turnDegrees(); // always > 0
+                        Console.WriteLine("Turning {0} degrees", rotateAngleDegrees);
+                        rotateDuration = Convert.ToInt32(
+                            getTurnDurationMillisecs(Math.Abs(rotateVelocity),
+                                                     rotateAngleDegrees));
+
                     }
                     // turn right or left
                     if (rotateVelocity != 0)
                     {
                         robot.DriveDirect(rotateVelocity, -1 * rotateVelocity); // first rotate
-                        Thread.Sleep(Math.Abs(rotation));
+                        Thread.Sleep(Math.Abs(rotateDuration));
                         robot.DriveDirect(0, 0);
                     }
                     // pause for effect
@@ -108,8 +132,14 @@ namespace RedditVoteRobot
                     // go forward or back
                     if (driveVelocity != 0)
                     {
+                        double driveDistanceMm = 10 * config.driveDistanceCm;
+                        double driveDuration = getDriveDurationMillisecs(driveVelocity,
+                                                                         driveDistanceMm);
+                        Console.WriteLine("Target distance: {0}cm", distance);
+                        Console.WriteLine("Driving at {0}mm/sec for {1} msecs",
+                                           driveVelocity, driveDuration);
                         robot.DriveDirect(driveVelocity, driveVelocity);
-                        Thread.Sleep(Math.Abs(distance)); // keep going for some number of secs (determined by magnitude?)
+                        Thread.Sleep(Math.Abs(Convert.ToInt32(driveDuration)));
                         robot.DriveDirect(0, 0);
                     }
 
@@ -169,6 +199,14 @@ namespace RedditVoteRobot
                                   DateTime.Now,
                                   config.backStrings.pickRandom ());
 		}
+
+        private static Random rand = new Random();
+        private double turnDegrees()
+        {
+            double degrees = rand.Next(config.rotateMinDegrees,
+                                       config.rotateMaxDegrees);
+            return degrees;
+        }
 	}
 }
 

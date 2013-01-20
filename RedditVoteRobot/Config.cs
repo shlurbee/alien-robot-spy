@@ -41,6 +41,9 @@ namespace RedditVoteRobot
 		public List<String> forwardStrings { get; set; }
 		public List<String> backStrings { get; set; }
 		public List<String> robotAdjectives { get; set; }
+        public int rotateMinDegrees { get; set; } // should be > 0
+        public int rotateMaxDegrees { get; set; } // should be > 0
+        public int driveDistanceCm { get; set; }
 
 		public static Config fromFile(string filename)
 		{
